@@ -5,6 +5,7 @@ services:
     plan: free
     buildCommand: npm install
     startCommand: node server/index.js
+    healthCheckPath: /api/status
     envVars:
-      - key: PORT
-        sync: false
+      - key: NODE_ENV
+        value: production

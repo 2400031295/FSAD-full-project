@@ -145,15 +145,9 @@ app.put('/api/submissions/:id/grade', async (req, res) => {
   res.json(submission);
 });
 
-app.listen(PORT, async () => {
-  try {
-    await initDb();
-    console.log(`✓ Backend listening on port ${PORT}`);
-    console.log(`✓ Database: ${DB_PATH}`);
-  } catch (error) {
-    console.error('✗ Failed to start server:', error.message);
-    process.exit(1);
-  }
+app.listen(PORT, () => {
+  console.log(`✓ Backend listening on port ${PORT}`);
+  console.log(`✓ Database path: ${DB_PATH}`);
 });
 
 process.on('uncaughtException', (err) => {

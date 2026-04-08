@@ -26,13 +26,35 @@ const UploadAssignment = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, this would save to database
-    setIsSubmitted(true);
-    setTimeout(() => {
-      navigate('/faculty-dashboard');
-    }, 2000);
+
+    try {
+      const assignmentPayload = {
+        ...formData,
+        createdBy: user?.id || 2,
+      };
+
+      const response = await fetch('/api/assignments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(assignmentPayload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create assignment');
+      }
+
+      setIsSubmitted(true);
+      setTimeout(() => {
+        navigate('/faculty-dashboard');
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+      alert('Unable to save the assignment. Please try again.');
+    }
   };
 
   return (

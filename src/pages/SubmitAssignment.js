@@ -48,12 +48,38 @@ const SubmitAssignment = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (selectedFile) {
+  const handleSubmit = async () => {
+    if (!selectedFile) return;
+
+    try {
+      const submissionPayload = {
+        assignmentId: parseInt(id, 10) || 1,
+        studentId: user?.id || 1,
+        studentName: user?.name || 'Student',
+        fileName: selectedFile.name,
+        fileSize: selectedFile.size,
+        submittedDate: new Date().toISOString().split('T')[0],
+      };
+
+      const response = await fetch('/api/submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionPayload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit assignment');
+      }
+
       setIsSubmitted(true);
       setTimeout(() => {
         navigate('/student-dashboard');
       }, 2000);
+    } catch (error) {
+      console.error(error);
+      alert('Unable to submit the assignment. Please try again.');
     }
   };
 

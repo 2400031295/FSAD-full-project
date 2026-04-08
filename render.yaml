@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     buildCommand: npm install
-    startCommand: node server/index.js
+    startCommand: node server/index-simple.js
     healthCheckPath: /api/status
     envVars:
       - key: NODE_ENV
